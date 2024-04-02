@@ -85,3 +85,15 @@ resource "aws_route_table_association" "server-rta-subnet-02" {
   subnet_id      = aws_subnet.server-vpc-subnet-02.id
   route_table_id = aws_route_table.server-RT.id
 }
+
+  module "sgs" {
+    source = "../sg_eks"
+    vpc_id     =     aws_vpc.loginKey-vpc.id
+ }
+
+  module "eks" {
+       source = "../eks"
+       vpc_id     =     aws_vpc.loginKey-vpc.id
+       subnet_ids = [aws_subnet.loginKey-public-subnet-01.id,aws_subnet.loginKey-public-subnet-02.id]
+       sg_ids = module.sgs.security_group_public
+ }
