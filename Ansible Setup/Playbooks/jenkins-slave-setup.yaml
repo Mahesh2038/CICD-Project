@@ -29,4 +29,13 @@
       service:
         name: docker
         state: started
+    - name: Provide executable permission to docker.sock
+      file:       #file module is to set previlages for files
+        path: /var/run/docker.sock
+        state: file
+        mode: 0777
+    - name: Start Docker on Boot time
+      service:
+        name: docker
+        enabled: yes
   
